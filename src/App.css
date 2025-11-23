@@ -91,7 +91,7 @@
 }
 
 .leaflet-container {
-  width: 100%;
-  height: 500px; /* set height for the map */
   border-radius: 10px;
+  width: 50vw;   /* full viewport width */
+  height: 80vh;  /* full viewport height */
 }
