@@ -1,6 +1,8 @@
 import axios from "axios";
 import type { Employee } from "../modules/Employee";
 import { cacheKey, isoCountry } from "../utils/locationUtils";
+import { NINJAS_API_KEY} from "../config/api";
+
 
 const coordCache: Record<string, [number, number]> = {};
 
@@ -11,7 +13,7 @@ async function getCoordinates(city: string, country: string) {
   try {
     const res = await axios.get("https://api.api-ninjas.com/v1/geocoding", {
       params: { city: city.trim(), country: isoCountry(country.trim()) },
-      headers: { "X-Api-Key": "0FzeDDgojdRyUF7b56VHOA==BluVfRKE3QSdWqZ7" },
+      headers: { "X-Api-Key": NINJAS_API_KEY },
     });
 
     if (!res.data || res.data.length === 0) return null;

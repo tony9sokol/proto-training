@@ -2,9 +2,10 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { useEffect, useState } from "react";
 import type { Employee } from "../../modules/Employee";
 import { employeeService } from "../../services/employeeService";
-import { geocodeService } from "../../services/geoCodeService";
+import { geocodeService } from "../../services/geocodeService";
 import "leaflet/dist/leaflet.css";
 import "./Map.css";
+
 
 export default function Map() {
   const center: [number, number] = [39.8283, -98.5795];
