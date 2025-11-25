@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-interface Employee {
+export interface Employee {
   id: number;
   firstName: string;
   lastName: string;
@@ -10,6 +10,8 @@ interface Employee {
   city: string;
   birthDate: string;
   imageUrl: string;
+  coords?: [number, number];
+
 }
 
 export default function Employees() {
