@@ -7,19 +7,18 @@
     /* vertical centering of links */
     padding: 1rem 2rem;
     background-color: #16e6c6;
-    gap: 1em;
+    gap: 1rem;
     color: #fff;
     width: 100%;
     /* full width */
     box-sizing: border-box;
-    z-index: 1000;
 }
 
 /* Make sure links stretch horizontally properly */
 .nav-links {
     list-style: none;
     display: flex;
-    gap: 20px;
+    gap: 1rem;
     margin: 0;
     padding: 0;
 }

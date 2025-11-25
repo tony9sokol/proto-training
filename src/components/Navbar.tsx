@@ -1,5 +1,5 @@
 import './Navbar.css';
-import '../../employee.png'
+import emp_picture from '../assets/employee.png'
 
 interface NavLink {
     name: string;
@@ -10,10 +10,11 @@ const links: NavLink[] = [
     {name:'Home',path: '/'},{ name: 'Employees', path: '/employees' },{name:'Map',path: '/map'}
 ];
 
-export default function Navbar() {
+
+export const Navbar = () => {
     return (
         <nav className="navbar">
-            <img src="employee.png" alt="Description" width="48" height="48" />
+            <img src={emp_picture} alt="Description" width="48" height="48" />
             <ul className="nav-links">
                 {links.map(link => (
                     <li key={link.name}>
