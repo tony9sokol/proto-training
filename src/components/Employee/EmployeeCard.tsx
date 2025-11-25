@@ -1,5 +1,6 @@
 import React from "react";
-import type {Employee} from './EmployeeContainer';
+import type { Employee } from "../../modules/Employee";
+import { Card, CardContent, CardMedia, Typography } from "@mui/material";
 
 interface EmployeeCardProps {
   employee: Employee;
@@ -7,15 +8,26 @@ interface EmployeeCardProps {
 }
 
 export const EmployeeCard = ({ employee, onClick }: EmployeeCardProps) => (
-  <div className="employee-card">
-    <img
-      src={employee.imageUrl}
+  <Card
+    sx={{ maxWidth: 250, cursor: "pointer" }}
+    onClick={() => onClick(employee)}
+  >
+    <CardMedia
+      component="img"
+      height="140"
+      image={employee.imageUrl}
       alt={`${employee.firstName} ${employee.lastName}`}
-      className="employee-photo card-photo"
-      style={{ cursor: "pointer" }}
-      onClick={() => onClick(employee)}
     />
-    <p><strong>Name:</strong> {employee.firstName} {employee.lastName}</p>
-    <p><strong>Job:</strong> {employee.title}</p>
-  </div>
+    <CardContent>
+      <Typography variant="h6">
+        {employee.firstName} {employee.lastName}
+      </Typography>
+      <Typography variant="body2" color="text.secondary">
+        {employee.title}
+      </Typography>
+      <Typography variant="body2" color="text.secondary">
+        {employee.city}, {employee.country}
+      </Typography>
+    </CardContent>
+  </Card>
 );
