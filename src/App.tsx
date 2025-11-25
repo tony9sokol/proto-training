@@ -1,5 +1,7 @@
 import './App.css';
 import Navbar from './components/Navbar';
+import Employees from './components/Employee';
+
 
 function App() {
   return (
@@ -7,10 +9,12 @@ function App() {
       <Navbar />
       <div className="page-content">
         <h1>Employees</h1>
-        <p>This is the page content area.</p>
+        <Employees />
       </div>
     </div>
   );
 }
 
 export default App;
+
+
