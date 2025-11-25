@@ -6,8 +6,10 @@ export default function Map() {
 
   return (
     <div className="page-content">
-      <h1>Employee Map</h1>
-      <MapContainer center={center} zoom={12} className="leaflet-container">
+      <MapContainer 
+      center={center} zoom={12} 
+      className="leaflet-container"   
+      >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution="&copy; OpenStreetMap contributors"
