@@ -1,39 +1,14 @@
 .App {
   width: 100%;
-  /* full viewport height */
   display: flex;
   flex-direction: column;
   text-align: center;
 }
 
-
 .page-content {
   margin: 0 auto;
   padding: 2rem;
 }
-
-.employee-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 20px;
-}
-
-.employee-card {
-  background: #f4f4f4;
-  padding: 15px;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.employee-card h3 {
-  margin: 0 0 10px;
-  font-size: 1.2rem;
-}
-
-.employee-card p {
-  margin: 4px 0;
-}
-
 
 .modal-overlay {
   position: fixed;
@@ -56,7 +31,6 @@
   width: 90%;
   position: relative;
   text-align: center;
-
 }
 
 .modal-close {
@@ -69,26 +43,8 @@
   cursor: pointer;
 }
 
-.card-photo:hover {
-  transform: scale(1.05);
-  transition: transform 0.2s;
-  cursor: pointer;
-}
-
-/* Modal images stay static */
-.modal-photo {
-  width: 50%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 10px;
-  margin-bottom: 15px;
-  cursor: default; /* remove pointer */
-  transform: none;
-  transition: none; /* prevent hover transition */
-}
-
 .leaflet-container {
   border-radius: 10px;
-  width: 50vw;   /* full viewport width */
-  height: 80vh;  /* full viewport height */
+  width: 50vw;
+  height: 80vh;
 }

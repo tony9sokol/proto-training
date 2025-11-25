@@ -2,7 +2,7 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { useEffect, useState } from "react";
 import axios from "axios";
 import 'leaflet/dist/leaflet.css';
-import type { Employee } from "./Employee";
+import type { Employee } from "./Employee/EmployeeContainer";
 
 const coordCache: Record<string, [number, number]> = {};
 
