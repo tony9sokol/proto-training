@@ -90,3 +90,8 @@
   transition: none; /* prevent hover transition */
 }
 
+.leaflet-container {
+  width: 100%;
+  height: 500px; /* set height for the map */
+  border-radius: 10px;
+}

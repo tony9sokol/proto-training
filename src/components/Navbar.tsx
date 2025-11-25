@@ -7,7 +7,7 @@ interface NavLink {
 }
 
 const links: NavLink[] = [
-    { name: 'Employees', path: '/employees' }
+    {name:'Home',path: '/'},{ name: 'Employees', path: '/employees' },{name:'Map',path: '/map'}
 ];
 
 export default function Navbar() {
