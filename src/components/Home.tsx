@@ -1,10 +1,9 @@
-import react_pic from "../assets/react.jpeg"
+import reactPic from "../assets/react.jpeg";
 export default function Home() {
-    return (
-      <div className="page-content">
-        <h1>Tony loves React</h1>
-        <img src={react_pic} alt="Description" width="500" height="500" />
-      </div>
-    );
-  }
-  
+  return (
+    <div className="page-content">
+      <h1>Tony loves React</h1>
+      <img src={reactPic} alt="Description" width="500" height="500" />
+    </div>
+  );
+}
