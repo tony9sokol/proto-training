@@ -1,8 +1,7 @@
-export function countryNameToIsoCode(country: string): string {
+export const countryNameToIsoCode = (country: string): string => {
   const c = country.trim().toUpperCase();
   return c === "USA" ? "US" : "GB";
-}
+};
 
-export function cacheKey(city: string, country: string): string {
-  return `${city.trim()},${country.trim()}`;
-}
+export const cacheKey = (city: string, country: string): string =>
+  `${city.trim()},${country.trim()}`;
