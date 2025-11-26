@@ -23,8 +23,8 @@ export const EmployeeContainer = () => {
       <h2>Employees</h2>
 
       <div className="employee-grid">
-        {employees.map((e) => (
-          <EmployeeCard key={e.id} employee={e} onClick={setSelectedEmployee} />
+        {employees.map((employee1) => (
+          <EmployeeCard key={employee1.id} employee={employee1} onClick={setSelectedEmployee} />
         ))}
       </div>
 
@@ -44,7 +44,7 @@ export const EmployeeContainer = () => {
             <img
               src={selectedEmployee.imageUrl}
               alt={`${selectedEmployee.firstName} ${selectedEmployee.lastName}`}
-              className="employee-photo modal-photo"
+              className="modal-photo"
             />
 
             <h2>

@@ -1,0 +1,9 @@
+.employee-card {
+  max-width: 16rem; /* 250px */
+  cursor: pointer;
+}
+
+.employee-card img {
+  height: 9rem; /* 140px */
+  object-fit: cover;
+}
