@@ -6,7 +6,6 @@ import { geocodeService } from "../../services/geocodeService";
 import "leaflet/dist/leaflet.css";
 import "./Map.css";
 
-
 export default function Map() {
   const center: [number, number] = [39.8283, -98.5795];
   const [employees, setEmployees] = useState<Employee[]>([]);
