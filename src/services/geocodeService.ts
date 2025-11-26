@@ -1,7 +1,7 @@
 import axios from "axios";
 import type { Employee } from "../modules/Employee";
 import { cacheKey, countryNameToIsoCode } from "../utils/locationUtils";
-import { NINJAS_API_KEY } from "../config/api";
+import { NINJAS_API_KEY, NINJA_URL } from "../config/api";
 
 type Coordinates = { lat: number; lng: number };
 
@@ -15,16 +15,13 @@ export const getCoordinates = async (
   if (coordinatesCache[key]) return coordinatesCache[key];
 
   try {
-    const result = await axios.get(
-      "https://api.api-ninjas.com/v1/geocoding",
-      {
-        params: {
-          city: city.trim(),
-          country: countryNameToIsoCode(country.trim()),
-        },
-        headers: { "X-Api-Key": NINJAS_API_KEY },
-      }
-    );
+    const result = await axios.get(NINJA_URL, {
+      params: {
+        city: city.trim(),
+        country: countryNameToIsoCode(country.trim()),
+      },
+      headers: { "X-Api-Key": NINJAS_API_KEY },
+    });
 
     if (!result.data || result.data.length === 0) return null;
 
@@ -48,7 +45,9 @@ export const attachCoordinates = async (
   employees: Employee[]
 ): Promise<(Employee & { coordinates: Coordinates | null })[]> => {
   const uniqueLocations = Array.from(
-    new Set(employees.map((employee) => cacheKey(employee.city, employee.country)))
+    new Set(
+      employees.map((employee) => cacheKey(employee.city, employee.country))
+    )
   );
 
   await Promise.all(
