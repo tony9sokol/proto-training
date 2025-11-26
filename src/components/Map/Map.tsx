@@ -13,44 +13,45 @@ export default function Map() {
   useEffect(() => {
     async function load() {
       const emps = await employeeService.getEmployees();
-      const withCoords = await geocodeService.attachCoordinates(emps);
-      setEmployees(withCoords);
+      const withCoordinates = await geocodeService.attachCoordinates(emps);
+      setEmployees(withCoordinates);
     }
     load();
   }, []);
 
+  // Group by coordinates object
   const groupedLocations = geocodeService.groupByCoordinates(employees);
 
   return (
-    <div className="page-content" style={{ height: "100vh", width: "100%" }}>
-      <MapContainer
-        center={center}
-        zoom={12}
-        style={{ height: "100%", width: "100%" }}
-      >
+    <div className="page-content map-page">
+      <MapContainer center={center} zoom={12} className="map-container">
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-        {Object.entries(groupedLocations).map(([coords, emps], index) => {
-          const [lat, lon] = coords.split(",").map(Number);
-          return (
-            <Marker key={index} position={[lat, lon]}>
-              <Popup>
-                <div className="popup-container">
-                  {emps.map((emp) => (
-                    <div key={emp.id} className="popup-card">
-                      <strong>
-                        {emp.firstName} {emp.lastName}
-                      </strong>
-                      <br />
-                      {emp.city}, {emp.country}
-                      <br />
-                      <img src={emp.imageUrl} alt="" />
-                    </div>
-                  ))}
-                </div>
-              </Popup>
-            </Marker>
-          );
-        })}
+
+        {Object.entries(groupedLocations).map(
+          ([key, employeesAtLocation], index) => {
+            const { lat, lng } = employeesAtLocation[0].coordinates!;
+
+            return (
+              <Marker key={index} position={[lat, lng]}>
+                <Popup>
+                  <div className="popup-container">
+                    {employeesAtLocation.map((employee) => (
+                      <div key={employee.id} className="popup-card">
+                        <strong>
+                          {employee.firstName} {employee.lastName}
+                        </strong>
+                        <br />
+                        {employee.city}, {employee.country}
+                        <br />
+                        <img src={employee.imageUrl} alt="" />
+                      </div>
+                    ))}
+                  </div>
+                </Popup>
+              </Marker>
+            );
+          }
+        )}
       </MapContainer>
     </div>
   );

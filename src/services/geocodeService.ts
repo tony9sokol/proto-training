@@ -1,28 +1,36 @@
 import axios from "axios";
 import type { Employee } from "../modules/Employee";
-import { cacheKey, isoCountry } from "../utils/locationUtils";
-import { NINJAS_API_KEY} from "../config/api";
+import { cacheKey, countryNameToIsoCode } from "../utils/locationUtils";
+import { NINJAS_API_KEY } from "../config/api";
 
+type Coordinates = { lat: number; lng: number };
 
-const coordCache: Record<string, [number, number]> = {};
+const coordinatesCache: Record<string, Coordinates> = {};
 
-async function getCoordinates(city: string, country: string) {
+async function getCoordinates(
+  city: string,
+  country: string
+): Promise<Coordinates | null> {
   const key = cacheKey(city, country);
-  if (coordCache[key]) return coordCache[key];
+  if (coordinatesCache[key]) return coordinatesCache[key];
 
   try {
-    const res = await axios.get("https://api.api-ninjas.com/v1/geocoding", {
-      params: { city: city.trim(), country: isoCountry(country.trim()) },
+    const result = await axios.get("https://api.api-ninjas.com/v1/geocoding", {
+      params: {
+        city: city.trim(),
+        country: countryNameToIsoCode(country.trim()),
+      },
       headers: { "X-Api-Key": NINJAS_API_KEY },
     });
 
-    if (!res.data || res.data.length === 0) return null;
+    if (!result.data || result.data.length === 0) return null;
 
-    const coords: [number, number] = [
-      parseFloat(res.data[0].latitude),
-      parseFloat(res.data[0].longitude),
-    ];
-    coordCache[key] = coords;
+    const coords: Coordinates = {
+      lat: parseFloat(result.data[0].latitude),
+      lng: parseFloat(result.data[0].longitude),
+    };
+
+    coordinatesCache[key] = coords;
     return coords;
   } catch (err: any) {
     console.error(
@@ -32,30 +40,37 @@ async function getCoordinates(city: string, country: string) {
     return null;
   }
 }
-
-async function attachCoordinates(emps: Employee[]) {
+async function attachCoordinates(
+  employees: Employee[]
+): Promise<(Employee & { coordinates: Coordinates | null })[]> {
   const uniqueLocations = Array.from(
-    new Set(emps.map((e) => cacheKey(e.city, e.country)))
+    new Set(
+      employees.map((employee) => cacheKey(employee.city, employee.country))
+    )
   );
 
   await Promise.all(
-    uniqueLocations.map((loc) => {
-      const [city, country] = loc.split(",");
+    uniqueLocations.map((location) => {
+      const [city, country] = location.split(",");
       return getCoordinates(city, country);
     })
   );
 
-  return emps.map((e) => ({
-    ...e,
-    coords: coordCache[cacheKey(e.city, e.country)] || null,
+  return employees.map((employee) => ({
+    ...employee,
+    coordinates:
+      coordinatesCache[cacheKey(employee.city, employee.country)] || null,
   }));
 }
 
-function groupByCoordinates(emps: Employee[]) {
-  return emps.reduce<Record<string, Employee[]>>((acc, emp) => {
-    if (!emp.coords) return acc;
-    const key = `${emp.coords[0]},${emp.coords[1]}`;
-    (acc[key] ||= []).push(emp);
+function groupByCoordinates(employees: Employee[]) {
+  return employees.reduce<Record<string, Employee[]>>((acc, employee) => {
+    if (!employee.coordinates) return acc;
+    const key = `${employee.coordinates.lat},${employee.coordinates.lng}`;
+    if (!acc[key]) {
+      acc[key] = [];
+    }
+    acc[key].push(employee);
     return acc;
   }, {});
 }
