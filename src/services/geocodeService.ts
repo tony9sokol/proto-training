@@ -7,21 +7,24 @@ type Coordinates = { lat: number; lng: number };
 
 const coordinatesCache: Record<string, Coordinates> = {};
 
-async function getCoordinates(
+export const getCoordinates = async (
   city: string,
   country: string
-): Promise<Coordinates | null> {
+): Promise<Coordinates | null> => {
   const key = cacheKey(city, country);
   if (coordinatesCache[key]) return coordinatesCache[key];
 
   try {
-    const result = await axios.get("https://api.api-ninjas.com/v1/geocoding", {
-      params: {
-        city: city.trim(),
-        country: countryNameToIsoCode(country.trim()),
-      },
-      headers: { "X-Api-Key": NINJAS_API_KEY },
-    });
+    const result = await axios.get(
+      "https://api.api-ninjas.com/v1/geocoding",
+      {
+        params: {
+          city: city.trim(),
+          country: countryNameToIsoCode(country.trim()),
+        },
+        headers: { "X-Api-Key": NINJAS_API_KEY },
+      }
+    );
 
     if (!result.data || result.data.length === 0) return null;
 
@@ -39,14 +42,13 @@ async function getCoordinates(
     );
     return null;
   }
-}
-async function attachCoordinates(
+};
+
+export const attachCoordinates = async (
   employees: Employee[]
-): Promise<(Employee & { coordinates: Coordinates | null })[]> {
+): Promise<(Employee & { coordinates: Coordinates | null })[]> => {
   const uniqueLocations = Array.from(
-    new Set(
-      employees.map((employee) => cacheKey(employee.city, employee.country))
-    )
+    new Set(employees.map((employee) => cacheKey(employee.city, employee.country)))
   );
 
   await Promise.all(
@@ -61,19 +63,18 @@ async function attachCoordinates(
     coordinates:
       coordinatesCache[cacheKey(employee.city, employee.country)] || null,
   }));
-}
+};
 
-function groupByCoordinates(employees: Employee[]) {
+export const groupByCoordinates = (
+  employees: Employee[]
+): Record<string, Employee[]> => {
   return employees.reduce<Record<string, Employee[]>>((acc, employee) => {
     if (!employee.coordinates) return acc;
     const key = `${employee.coordinates.lat},${employee.coordinates.lng}`;
-    if (!acc[key]) {
-      acc[key] = [];
-    }
-    acc[key].push(employee);
+    (acc[key] ||= []).push(employee); // Using logical OR assignment
     return acc;
   }, {});
-}
+};
 
 export const geocodeService = {
   attachCoordinates,
