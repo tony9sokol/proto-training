@@ -1,14 +1,13 @@
-import { useState } from 'react';
 import './App.css';
+import Navbar from './components/Navbar';
 
 function App() {
-
   return (
     <div className="App">
-      <h1>Northwind</h1>
-
-
-      <div className="card">
+      <Navbar />
+      <div className="page-content">
+        <h1>Employees</h1>
+        <p>This is the page content area.</p>
       </div>
     </div>
   );
